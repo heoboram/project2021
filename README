@@ -26,10 +26,82 @@ userId, password , userName 하나라도 없으면 {"result":"fail","errorDetail
 2. 로그인
 회원 가입이 완료 되었을 경우
 curl -H "Content-Type: application/json" http://localhost:8080/api/users/login/1234?password=1234
-
-
-
-
+로그인 성공시 {"result":"success","errorDetail":""}
+실패할경우 {"result":"fail","errorDetail":"Not found user data"}
+password에 값이 없을경우 {"result":"error","errorDetail":"Format specifier 'Missing arguments'"}
+3. 장소 검색 키워드
+curl http://localhost:8080/api/search/1/abc
+통신 성공 (naver 는 총 5개, kakao 는 총 10개 중복제거 되어 총 13개 확인)
+[{"결과":
+["ABC마트GS강남본점"
+,"ABC마트GS가로수길점"
+,"ABC마트GS홍대점"
+,"ABC마트MS노원점"
+,"ABC마트ST강남점"
+,"ABC마트ST중랑점"
+,"ABC마트GS신촌점"
+,"ABC마트MS명동점"
+,"ABC마트GS명동점"
+,"ABC마트GS대학로점"
+,"ABC마트GS명동중앙점
+","ABC마트"
+,"ABC마트ST서울역롯데아울렛점"]}]
+통신 실패 (kakao 통신실패 , naver 통신성공)
+[{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":["ABC마트GS명동점","ABC마트GS명동중앙점","ABC마트MS명동점","ABC마트","ABC마트ST서울역롯데아울렛점"]}]
+통신 실패 (kakao 통신성공, kakao 통신실패)
+[{"body":"Naver Exception Error","statusCode":"999"},{"결과":["ABC마트GS강남본점","ABC마트GS가로수길점","ABC마트GS홍대점","ABC마트MS노원점","ABC마트ST강남점","ABC마트ST중랑점","ABC마트GS신촌점","ABC마트MS명동점","ABC마트GS명동점","ABC마트GS대학로점"]}]
+통신 실패 (kakao , naver 통신실패)
+[{"body":"Naver Exception Error","statusCode":"999"},{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":[]}]
+4. 내 검색 히스토리
+curl -H "Content-Type: application/json" http://localhost:8080/api/search/history/1
+#####히스토리 돌리기전 키워드 검색#####
+curl http://localhost:8080/api/search/1/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
+curl http://localhost:8080/api/search/1/%ec%9d%80%ed%96%89
+curl http://localhost:8080/api/search/1/%ed%8e%b8%ec%9d%98%ec%a0%90
+curl http://localhost:8080/api/search/1/%ed%95%99%ea%b5%90
+curl http://localhost:8080/api/search/1/%ec%b9%b4%ed%8e%98
+###################################
+성공
+[{"KEYWORD":"카페","CREATEDATETIME":"2021-03-22 21:41:57.62"}
+,{"CREATEDATETIME":"2021-03-22 21:39:03.837","KEYWORD":"학 교"}
+,{"CREATEDATETIME":"2021-03-22 21:39:03.736","KEYWORD":"편의점"}
+,{"CREATEDATETIME":"2021-03-22 21:39:03.656","KEYWORD":"은행"}
+,{"KEYWORD":"대형마트","CREATEDATETIME":"2021-03-22 21:39:03.547"}
+,{"KEYWORD":"abc","CREATEDATETIME":"2021-03-22 21:36:13.965"}]
+실패(ID 없을경우)
+{"result":"fail","errorDetail":"Not found user data"}
+5.사용자 인기 검색 BEST10
+curl -H "Content-Type: application/json" http://localhost:8080/api/search/bestSearch
+#####인기 검색 BEST10 돌리기전 회원등록#####
+curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"1\", \"password\":\"1234\", \"userName\":\"김개똥\"}"
+curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"2\", \"password\":\"1234\", \"userName\":\"홍길동\"}"
+curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"3\", \"password\":\"1234\", \"userName\":\"김남이\"}"
+curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"4\", \"password\":\"1234\", \"userName\":\"김수현\"}"
+curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"5\", \"password\":\"1234\", \"userName\":\"김준\"}"
+#####인기 검색 BEST10 돌리기전 키워드 검색#####
+curl http://localhost:8080/api/search/2/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
+curl http://localhost:8080/api/search/3/%ec%9d%80%ed%96%89
+curl http://localhost:8080/api/search/2/%ed%8e%b8%ec%9d%98%ec%a0%90
+curl http://localhost:8080/api/search/2/%ed%95%99%ea%b5%90
+curl http://localhost:8080/api/search/3/%ec%b9%b4%ed%8e%98
+curl http://localhost:8080/api/search/1/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
+curl http://localhost:8080/api/search/4/%ec%9d%80%ed%96%89
+curl http://localhost:8080/api/search/3/%ed%8e%b8%ec%9d%98%ec%a0%90
+curl http://localhost:8080/api/search/2/%ed%95%99%ea%b5%90
+curl http://localhost:8080/api/search/1/%ec%b9%b4%ed%8e%98
+curl http://localhost:8080/api/search/5/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
+curl http://localhost:8080/api/search/4/%ec%9d%80%ed%96%89
+curl http://localhost:8080/api/search/5/%ed%8e%b8%ec%9d%98%ec%a0%90
+curl http://localhost:8080/api/search/2/%ed%95%99%ea%b5%90
+curl http://localhost:8080/api/search/5/%ec%b9%b4%ed%8e%98
+###################################
+성공
+[{"KEYWORD":"카페","COUNT":"5"}
+,{"KEYWORD":"대형마트","COUNT":"5"}
+,{"KEYWORD":"은행","COUNT":"4"}
+,{"KEYWORD":"학교","COUNT":"4"}
+,{"KEYWORD":"편의점","COUNT":"4"}
+,{"KEYWORD":"abc","COUNT":"1"}]
 
 
 

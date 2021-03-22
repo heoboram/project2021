@@ -70,24 +70,22 @@ try {
             JSONObject jsonObj = (JSONObject) jsonParse.parse(re);
 
             JSONArray personArray = (JSONArray) jsonObj.get("items");
-            JSONObject jo = new JSONObject();
+
 
             for (int i = 0; i < personArray.size(); i++) {
                 JSONObject personObject = (JSONObject) personArray.get(i);
 
-                naverResult.add(personObject.get("title").toString().replaceAll("<b>", "").replaceAll("</b>", ""));
+                naverResult.add(personObject.get("title").toString().replaceAll(" ","").replaceAll("<b>", "").replaceAll("</b>", ""));
             }
-            jo.put("naver" , naverResult);
-            arry.add(jo);
+
         }catch(Exception e){
             JSONObject jo = new JSONObject();
             jo.put("statusCode","999");
             jo.put("body","Naver Exception Error");
             arry.add(jo);
-            System.out.println(e.toString());
         }
 
-
+        latch.countDown();
     });
 
     //카카오
@@ -118,18 +116,18 @@ try {
             for (int i = 0; i < personArray.size(); i++) {
                 JSONObject personObject = (JSONObject) personArray.get(i);
 
-                kakaoResult.add(personObject.get("place_name").toString().replaceAll("<b>", "").replaceAll("</b>", ""));
+                kakaoResult.add(personObject.get("place_name").toString().replaceAll(" ","").replaceAll("<b>", "").replaceAll("</b>", ""));
             }
-            JSONObject jo = new JSONObject();
-            jo.put("kakao" , kakaoResult);
-            arry.add(jo);
+
         }catch(Exception e){
             JSONObject jo = new JSONObject();
             jo.put("statusCode","999");
             jo.put("body","KAKAO Exception Error");
             System.out.println(e.toString());
             arry.add(jo);
+
         }
+        latch.countDown();
     });
 
     es.shutdown();
@@ -161,13 +159,16 @@ try {
     jsonObj.put("statusCode",e.getRawStatusCode());
     jsonObj.put("body",e.getStatusText());
      System.out.println(e.toString());
+
     arry.add(jsonObj);
+    return new ResponseEntity<>(arry, HttpStatus.BAD_REQUEST);
     }catch(Exception e){
     JSONObject jsonObj = new JSONObject();
     jsonObj.put("statusCode","999");
     jsonObj.put("body","Exception Error");
     arry.add(jsonObj);
     System.out.println(e.toString());
+    return new ResponseEntity<>(arry, HttpStatus.BAD_REQUEST);
     }
 
     return new ResponseEntity<>(arry, HttpStatus.OK);
