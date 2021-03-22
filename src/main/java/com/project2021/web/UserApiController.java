@@ -31,12 +31,21 @@ public class UserApiController {
 
     //회원가입
     @PostMapping("/api/users")
-    public ResponseEntity<User> save(@RequestBody @Valid UserSaveRequestDto requestDto)throws Exception{
+    public ResponseEntity<UserResponse> save(@RequestBody @Valid UserSaveRequestDto requestDto)throws Exception{
+        try {
+            //패스워드 암호화
+            requestDto.password = EncryptionUtils.encryptSHA256(requestDto.getPassword());
+            //회원 등록
+            User user = userService.save(requestDto);
 
-      requestDto.password= EncryptionUtils.encryptSHA256(requestDto.getPassword());
-           User user  = userService.save(requestDto);
-            return new ResponseEntity<>(user,HttpStatus.CREATED);
-
+            if (user.getUserId() != null) {
+                return new ResponseEntity<>(new UserResponse(UserResResult.success, ""), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new UserResponse(UserResResult.fail, "Not save user data"), HttpStatus.BAD_REQUEST);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<>(new UserResponse(UserResResult.fail, "Not save user data"), HttpStatus.BAD_REQUEST);
+        }
    }
 
 

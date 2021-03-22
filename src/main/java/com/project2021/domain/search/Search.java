@@ -5,10 +5,8 @@ package com.project2021.domain.search;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -16,6 +14,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @Entity
+//데이터가 많을 경우를 대비한 인덱스 설정
+@Table(indexes =  {@Index(name = "i_user_id" , columnList= "userid"),@Index(name = "i_keyword", columnList = "keyword DESC")})
 public class Search {
 
     @Id

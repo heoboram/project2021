@@ -2,7 +2,9 @@ package com.project2021.web;
 
 import com.project2021.domain.user.User;
 import com.project2021.domain.user.UserRepository;
-import com.project2021.web.dto.UserSaveRequestDto;
+import com.project2021.web.config.EncryptionUtils;
+import com.project2021.web.dto.UserResponseDto;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,29 +40,81 @@ public class UserApiControllerTest {
         userRepository.deleteAll();
     }
 
+    
+    //저장 TEST
     @Test
-    public void User_등록() throws Exception{
-
+    public void save(){
         String userId = "gj0612";
         String password = "1234";
         String userName = "허보람";
-        UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
+
+
+        userRepository.save(User.builder()
                 .userId(userId)
                 .password(password)
                 .userName(userName)
-                .build();
+                .build());
 
+        //when
+        //테이블 에 있는 모든 데이터를 조회해오는 메소드
+        List<User> list = userRepository.findAll();
+
+        User user = list.get(0);
+        System.out.println("=================");
+        System.out.println(user.getUserId());
+        System.out.println(user.getPassword());
+        System.out.println(user.getUserName());
+        System.out.println("=================");
+
+        assertThat(user.getUserId()).isEqualTo(userId);
+        assertThat(user.getPassword()).isEqualTo(password);
+        assertThat(user.getUserName()).isEqualTo(userName);
+    }
+
+    //회원가입 TEST
+    @Test
+    public void userSave(){
+        String userId = "gj0612";
+        String password = "1234";
+        String userName = "허보람";
+        UserResponseDto userDto = new UserResponseDto(User.builder().userId(userId).password(password).userName(userName).build());
         String url = "http://localhost:" + port + "api/users";
+        HttpEntity<UserResponseDto> requestEntity = new HttpEntity<>(userDto);
+        ResponseEntity<Object> responseEntity = restTemplate.exchange(url, HttpMethod.POST,requestEntity,Object.class);
 
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url,requestDto,Long.class);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+    }
 
-        List<User> all = userRepository.findAll();
-        assertThat(all.get(0).getUserId()).isEqualTo(userId);
-        assertThat(all.get(0).getPassword()).isEqualTo(password);
-        assertThat(all.get(0).getUserName()).isEqualTo(userName);
+    //로그인
+    @Test
+    public void userLogin(){
+
+        String userId = "gj0612";
+        String password = EncryptionUtils.encryptSHA256("1234");
+        String userName = "허보람";
+
+        //로그인 TEST 회원 가입 먼저
+        User saveUser =  userRepository.save(User.builder()
+                .userId(userId)
+                .password(password)
+                .userName(userName)
+                .build());
+
+        String userId2 = saveUser.getUserId();
+        String password2 = "1234";
+
+        UserResponseDto userDto = new UserResponseDto(User.builder().userId(userId2).password(password2).build());
+        //로그인
+
+
+        String url = "http://localhost:" + port + "api/users/login/" +userId2 +"?"+"password=" +password2;
+
+        HttpEntity<UserResponseDto> requestEntity = new HttpEntity<>(userDto);
+        ResponseEntity<Object> responseEntity = restTemplate.exchange(url, HttpMethod.GET,requestEntity,Object.class);
+
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 
     }
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RequiredArgsConstructor
@@ -40,12 +41,12 @@ public class SearchService {
     }
 
     @Transactional(readOnly = true)
-    public List findByUserId(String userId){
-        return searchRepository.findByUserId(userId);
+    public List<Map<String,String>> findByUserIdHistory(String userId){
+        return searchRepository.findByUserIdHistory(userId);
     }
 
     @Transactional(readOnly = true)
-    public List findByBestSearch(){
+    public List<Map<String,String>> findByBestSearch(){
         return searchRepository.findByBestKeyword();
     }
 
