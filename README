@@ -54,24 +54,24 @@ curl http://localhost:8080/api/search/5/%EC%A3%BC%EC%B0%A8%EC%9E%A5
 ###############################################
 
 #####TEST CASE#####
-       Test_Case                                |        확인 결과
- 회원 가입 curl 실행                              | {"result":"success","detail":"password : 03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"} result 결과 success로 정상 처리 확인.
- 회원 가입 시 password 암호화가 되었는가?            | 회원 가입 성공 결과 detail 에서 password 암호화 결과가 확인.
- 회원 가입 시 이미 등록한 회원이 등록 가능한가?        | {"result":"fail","detail":"Not save user data"} 회원등록이 fail 되었음이 확인.
- 로그인 curl 실행                                | {"result":"success","detail":"login Success"} result 결과 success로 정상 처리 확인.
- 등록 되지 않은 id 로 로그인 요청                   | {"result":"fail","detail":"Not found user data"} 로그인 요청이 fail 되었음이 확인.
- 등록 회원은 맞으나 password 가 틀릴 경우            | {"result":"fail","detail":"Not found user data"} 로그인 요청이 fail 되었음이 확인.
- 장소검색 curl 실행                               | [{"결과":["이마트영등포점","이마트파주운정점","이마트죽전점","이마트해운대점","이마트가양점","이마트성수점","이마트용산 점","이마트은평점","이마트안양점","이마트의왕점"
-                                                |    ,"육일슈퍼마켓","레몬마트","서울식품","뉴욕식품시티스타몰점","현진씨에프롯데호텔본점"]}]  카카오 10개 네이버 5개로 총 15개 결과 확인됨.
- 장소 검색시 네이버,카카오 중복 제거가 되는가?         | [{"결과":["ABC마트GS강남본점","ABC마트GS가로수길점","ABC마트GS홍대점","ABC마트MS노원점","ABC마트ST강남점","ABC마트ST중랑점","ABC마트GS신촌점","ABC마트MS명동점"
-                                                | ,"ABC마트GS명동점","ABC마트GS대학로점","ABC마트GS명동중앙점","ABC마트","ABC마트ST서울역롯데아울렛점"]}] 2개중복으로 카카오 10개 네이버 3개 결과 확인됨.
- 장소 검색시 통신에 실패하면 확인방법은 어떻게 되는가?   | [{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":["ABC마트GS명동점","ABC마트GS명동중앙점","ABC마트MS명동점","ABC마트","ABC마트ST서울역롯데아울렛점"]}]  네이버 결과만 확인가능.
-                                                | [{"body":"Naver Exception Error","statusCode":"999"},{"결과":["ABC마트GS강남본점","ABC마트GS가로수길점","ABC마트GS홍대점","ABC마트MS노원점","ABC마트ST강남점","ABC마트ST중랑점","ABC마트GS신촌점","ABC마트MS명동점","ABC마트GS명동점","ABC마트GS대학로점"]}] 카카오 결과만 확인가능.
-                                                | [{"body":"Naver Exception Error","statusCode":"999"},{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":[]}] naver , kakao 통신 실패
- 나의 검색 히스토리 curl 실행                       | [{"CREATEDATETIME":"2021-03-23 10:51:29.513","KEYWORD":"abc"},{"KEYWORD":"대형마트","CREATEDATETIME":"2021-03-23 10:49:06.126"},{"KEYWORD":"편의점","CREATEDATETIME":"2021-03-23 10:47:52.486"}] 정상 확인
- 검색 히스토리는 최신순으로 확인 되는가?              |  CREATEDDATETIME 확인결과 2021-03-23 10:51:29.513 - 2021-03-23 10:49:06.126 - 2021-03-23 10:47:52.486  최신 순으로 확인됨.
- 사용자 인기 검색 BEST10 CURL 실행                 | [{"COUNT":"2","KEYWORD":"주차장"},{"COUNT":"2","KEYWORD":"편의점"},{"KEYWORD":"대형마트","COUNT":"2"},{"KEYWORD":"abc","COUNT":"1"},{"KEYWORD":"학원","COUNT":"1"}
-                                                    ,{"COUNT":"1","KEYWORD":"숙박"},{"KEYWORD":"약국","COUNT":"1"},{"KEYWORD":"학 교","COUNT":"1"},{"KEYWORD":"주유소","COUNT":"1"},{"KEYWORD":"카페","COUNT":"1"}] 데이타 10개 정상확인됨.
+       Test_Case                                        |        확인 결과
+ ●회원 가입 curl 실행                                    | {"result":"success","detail":"password : 03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"} result 결과 success로 정상 처리 확인.
+ ●회원 가입 시 password 암호화가 되었는가?                | 회원 가입 성공 결과 detail 에서 password 암호화 결과가 확인.
+ ●회원 가입 시 이미 등록한 회원이 등록 가능한가?           | {"result":"fail","detail":"Not save user data"} 회원등록이 fail 되었음이 확인.
+ ●로그인 curl 실행                                       | {"result":"success","detail":"login Success"} result 결과 success로 정상 처리 확인.
+ ●등록 되지 않은 id 로 로그인 요청                        | {"result":"fail","detail":"Not found user data"} 로그인 요청이 fail 되었음이 확인.
+ ●등록 회원은 맞으나 password 가 틀릴 경우                | {"result":"fail","detail":"Not found user data"} 로그인 요청이 fail 되었음이 확인.
+ ●장소검색 curl 실행                                     | [{"결과":["이마트영등포점","이마트파주운정점","이마트죽전점","이마트해운대점","이마트가양점","이마트성수점","이마트용산 점","이마트은평점","이마트안양점","이마트의왕점"
+                                                        |    ,"육일슈퍼마켓","레몬마트","서울식품","뉴욕식품시티스타몰점","현진씨에프롯데호텔본점"]}]  카카오 10개 네이버 5개로 총 15개 결과 확인됨.
+ ●장소 검색시 네이버,카카오 중복 제거가 되는가?             | [{"결과":["ABC마트GS강남본점","ABC마트GS가로수길점","ABC마트GS홍대점","ABC마트MS노원점","ABC마트ST강남점","ABC마트ST중랑점","ABC마트GS신촌점","ABC마트MS명동점"
+                                                        | ,"ABC마트GS명동점","ABC마트GS대학로점","ABC마트GS명동중앙점","ABC마트","ABC마트ST서울역롯데아울렛점"]}] 2개중복으로 카카오 10개 네이버 3개 결과 확인됨.
+ ●장소 검색시 통신에 실패하면 확인방법은 어떻게 되는가?     | [{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":["ABC마트GS명동점","ABC마트GS명동중앙점","ABC마트MS명동점","ABC마트","ABC마트ST서울역롯데아울렛점"]}]  네이버 결과만 확인가능.
+                                                        | [{"body":"Naver Exception Error","statusCode":"999"},{"결과":["ABC마트GS강남본점","ABC마트GS가로수길점","ABC마트GS홍대점","ABC마트MS노원점","ABC마트ST강남점","ABC마트ST중랑점","ABC마트GS신촌점","ABC마트MS명동점","ABC마트GS명동점","ABC마트GS대학로점"]}] 카카오 결과만 확인가능.
+                                                        | [{"body":"Naver Exception Error","statusCode":"999"},{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":[]}] naver , kakao 통신 실패
+ ●나의 검색 히스토리 curl 실행                            | [{"CREATEDATETIME":"2021-03-23 10:51:29.513","KEYWORD":"abc"},{"KEYWORD":"대형마트","CREATEDATETIME":"2021-03-23 10:49:06.126"},{"KEYWORD":"편의점","CREATEDATETIME":"2021-03-23 10:47:52.486"}] 정상 확인
+ ●검색 히스토리는 최신순으로 확인 되는가?                  |  CREATEDDATETIME 확인결과 2021-03-23 10:51:29.513 - 2021-03-23 10:49:06.126 - 2021-03-23 10:47:52.486  최신 순으로 확인됨.
+ ●사용자 인기 검색 BEST10 CURL 실행                       | [{"COUNT":"2","KEYWORD":"주차장"},{"COUNT":"2","KEYWORD":"편의점"},{"KEYWORD":"대형마트","COUNT":"2"},{"KEYWORD":"abc","COUNT":"1"},{"KEYWORD":"학원","COUNT":"1"}
+                                                        | ,{"COUNT":"1","KEYWORD":"숙박"},{"KEYWORD":"약국","COUNT":"1"},{"KEYWORD":"학 교","COUNT":"1"},{"KEYWORD":"주유소","COUNT":"1"},{"KEYWORD":"카페","COUNT":"1"}] 데이타 10개 정상확인됨.
 
 
 
