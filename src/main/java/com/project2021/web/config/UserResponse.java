@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class UserResponse {
 
     private UserResResult result;
-    private String errorDetail;
+    private String Detail;
+
 }

@@ -5,73 +5,20 @@
 ##회원가입 post
 curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"1234\", \"password\":\"1234\", \"userName\":\"김개똥\"}"
 ##로그인
-curl -H "Content-Type: application/json" http://localhost:8080/api/users/login/gj0612?password=1234
+curl -H "Content-Type: application/json" http://localhost:8080/api/users/login/1234?password=1234
 2. 장소 검색 키워드
 ## curl 한글 깨짐 현상으로 키워드 encode 해서 넣기
-curl http://localhost:8080/api/search/gj0612/%ed%8e%b8%ec%9d%98%ec%a0%90
+//대형마트
+curl http://localhost:8080/api/search/1234/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
+//abc 중복제거 확인 curl
+curl http://localhost:8080/api/search/1234/abc
+//편의점
+curl http://localhost:8080/api/search/1234/%ed%8e%b8%ec%9d%98%ec%a0%90
 3. 내 검색 히스토리
-## 히스토리 검색
-curl -H "Content-Type: application/json" http://localhost:8080/api/search/history/gj0612
+curl -H "Content-Type: application/json" http://localhost:8080/api/search/history/1234
 4. 사용자 인기 검색 BEST10
-## 인기검색
 curl -H "Content-Type: application/json" http://localhost:8080/api/search/bestSearch
-##
 
-
-#####TEST CASE#####
-1. 회원가입
-curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"1234\", \"password\":\"1234\", \"userName\":\"김개똥\"}"
-userId = 1234 , password = 123 userName = "김개똥" 으로 요청시 {"result":"success","errorDetail":""}
-userId, password , userName 하나라도 없으면 {"result":"fail","errorDetail":"Not save user data"}
-2. 로그인
-회원 가입이 완료 되었을 경우
-curl -H "Content-Type: application/json" http://localhost:8080/api/users/login/1234?password=1234
-로그인 성공시 {"result":"success","errorDetail":""}
-실패할경우 {"result":"fail","errorDetail":"Not found user data"}
-password에 값이 없을경우 {"result":"error","errorDetail":"Format specifier 'Missing arguments'"}
-3. 장소 검색 키워드
-curl http://localhost:8080/api/search/1/abc
-통신 성공 (naver 는 총 5개, kakao 는 총 10개 중복제거 되어 총 13개 확인)
-[{"결과":
-["ABC마트GS강남본점"
-,"ABC마트GS가로수길점"
-,"ABC마트GS홍대점"
-,"ABC마트MS노원점"
-,"ABC마트ST강남점"
-,"ABC마트ST중랑점"
-,"ABC마트GS신촌점"
-,"ABC마트MS명동점"
-,"ABC마트GS명동점"
-,"ABC마트GS대학로점"
-,"ABC마트GS명동중앙점
-","ABC마트"
-,"ABC마트ST서울역롯데아울렛점"]}]
-통신 실패 (kakao 통신실패 , naver 통신성공)
-[{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":["ABC마트GS명동점","ABC마트GS명동중앙점","ABC마트MS명동점","ABC마트","ABC마트ST서울역롯데아울렛점"]}]
-통신 실패 (kakao 통신성공, kakao 통신실패)
-[{"body":"Naver Exception Error","statusCode":"999"},{"결과":["ABC마트GS강남본점","ABC마트GS가로수길점","ABC마트GS홍대점","ABC마트MS노원점","ABC마트ST강남점","ABC마트ST중랑점","ABC마트GS신촌점","ABC마트MS명동점","ABC마트GS명동점","ABC마트GS대학로점"]}]
-통신 실패 (kakao , naver 통신실패)
-[{"body":"Naver Exception Error","statusCode":"999"},{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":[]}]
-4. 내 검색 히스토리
-curl -H "Content-Type: application/json" http://localhost:8080/api/search/history/1
-#####히스토리 돌리기전 키워드 검색#####
-curl http://localhost:8080/api/search/1/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
-curl http://localhost:8080/api/search/1/%ec%9d%80%ed%96%89
-curl http://localhost:8080/api/search/1/%ed%8e%b8%ec%9d%98%ec%a0%90
-curl http://localhost:8080/api/search/1/%ed%95%99%ea%b5%90
-curl http://localhost:8080/api/search/1/%ec%b9%b4%ed%8e%98
-###################################
-성공
-[{"KEYWORD":"카페","CREATEDATETIME":"2021-03-22 21:41:57.62"}
-,{"CREATEDATETIME":"2021-03-22 21:39:03.837","KEYWORD":"학 교"}
-,{"CREATEDATETIME":"2021-03-22 21:39:03.736","KEYWORD":"편의점"}
-,{"CREATEDATETIME":"2021-03-22 21:39:03.656","KEYWORD":"은행"}
-,{"KEYWORD":"대형마트","CREATEDATETIME":"2021-03-22 21:39:03.547"}
-,{"KEYWORD":"abc","CREATEDATETIME":"2021-03-22 21:36:13.965"}]
-실패(ID 없을경우)
-{"result":"fail","errorDetail":"Not found user data"}
-5.사용자 인기 검색 BEST10
-curl -H "Content-Type: application/json" http://localhost:8080/api/search/bestSearch
 #####인기 검색 BEST10 돌리기전 회원등록#####
 curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"1\", \"password\":\"1234\", \"userName\":\"김개똥\"}"
 curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"2\", \"password\":\"1234\", \"userName\":\"홍길동\"}"
@@ -79,30 +26,52 @@ curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/user
 curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"4\", \"password\":\"1234\", \"userName\":\"김수현\"}"
 curl  -H "Content-Type: application/json" -X POST http://localhost:8080/api/users -d "{\"userId\":\"5\", \"password\":\"1234\", \"userName\":\"김준\"}"
 #####인기 검색 BEST10 돌리기전 키워드 검색#####
-curl http://localhost:8080/api/search/2/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
-curl http://localhost:8080/api/search/3/%ec%9d%80%ed%96%89
-curl http://localhost:8080/api/search/2/%ed%8e%b8%ec%9d%98%ec%a0%90
-curl http://localhost:8080/api/search/2/%ed%95%99%ea%b5%90
-curl http://localhost:8080/api/search/3/%ec%b9%b4%ed%8e%98
 curl http://localhost:8080/api/search/1/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
-curl http://localhost:8080/api/search/4/%ec%9d%80%ed%96%89
+curl http://localhost:8080/api/search/2/%ec%9d%80%ed%96%89
 curl http://localhost:8080/api/search/3/%ed%8e%b8%ec%9d%98%ec%a0%90
-curl http://localhost:8080/api/search/2/%ed%95%99%ea%b5%90
-curl http://localhost:8080/api/search/1/%ec%b9%b4%ed%8e%98
-curl http://localhost:8080/api/search/5/%eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
-curl http://localhost:8080/api/search/4/%ec%9d%80%ed%96%89
-curl http://localhost:8080/api/search/5/%ed%8e%b8%ec%9d%98%ec%a0%90
-curl http://localhost:8080/api/search/2/%ed%95%99%ea%b5%90
+curl http://localhost:8080/api/search/4/%ed%95%99%ea%b5%90
 curl http://localhost:8080/api/search/5/%ec%b9%b4%ed%8e%98
-###################################
-성공
-[{"KEYWORD":"카페","COUNT":"5"}
-,{"KEYWORD":"대형마트","COUNT":"5"}
-,{"KEYWORD":"은행","COUNT":"4"}
-,{"KEYWORD":"학교","COUNT":"4"}
-,{"KEYWORD":"편의점","COUNT":"4"}
-,{"KEYWORD":"abc","COUNT":"1"}]
+curl http://localhost:8080/api/search/1/%EC%A3%BC%EC%9C%A0%EC%86%8C
+curl http://localhost:8080/api/search/2/%EC%95%BD%EA%B5%AD
+curl http://localhost:8080/api/search/3/%EC%88%99%EB%B0%95
+curl http://localhost:8080/api/search/4/%ED%95%99%EC%9B%90
+curl http://localhost:8080/api/search/5/%EC%96%B4%EB%A6%B0%EC%9D%B4%EC%A7%91
+curl http://localhost:8080/api/search/4/%EC%A3%BC%EC%B0%A8%EC%9E%A5
+curl http://localhost:8080/api/search/5/%EC%A3%BC%EC%B0%A8%EC%9E%A5
 
+#########curl cmd 실행시 한글 깨짐 현상###########
+대형마트 %eb%8c%80%ed%98%95%eb%a7%88%ed%8a%b8
+은행 %ec%9d%80%ed%96%89
+편의점 %ed%8e%b8%ec%9d%98%ec%a0%90
+학교 %ed%95%99%ea%b5%90
+카페 %ec%b9%b4%ed%8e%98
+주유소 %EC%A3%BC%EC%9C%A0%EC%86%8C
+약국 %EC%95%BD%EA%B5%AD
+숙박 %EC%88%99%EB%B0%95
+학원 %ED%95%99%EC%9B%90
+어린이집 %EC%96%B4%EB%A6%B0%EC%9D%B4%EC%A7%91
+주차장 %EC%A3%BC%EC%B0%A8%EC%9E%A5
+###############################################
+
+#####TEST CASE#####
+       Test_Case                                |        확인 결과
+ 회원 가입 curl 실행                              | {"result":"success","detail":"password : 03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"} result 결과 success로 정상 처리 확인.
+ 회원 가입 시 password 암호화가 되었는가?            | 회원 가입 성공 결과 detail 에서 password 암호화 결과가 확인.
+ 회원 가입 시 이미 등록한 회원이 등록 가능한가?        | {"result":"fail","detail":"Not save user data"} 회원등록이 fail 되었음이 확인.
+ 로그인 curl 실행                                | {"result":"success","detail":"login Success"} result 결과 success로 정상 처리 확인.
+ 등록 되지 않은 id 로 로그인 요청                   | {"result":"fail","detail":"Not found user data"} 로그인 요청이 fail 되었음이 확인.
+ 등록 회원은 맞으나 password 가 틀릴 경우            | {"result":"fail","detail":"Not found user data"} 로그인 요청이 fail 되었음이 확인.
+ 장소검색 curl 실행                               | [{"결과":["이마트영등포점","이마트파주운정점","이마트죽전점","이마트해운대점","이마트가양점","이마트성수점","이마트용산 점","이마트은평점","이마트안양점","이마트의왕점"
+                                                |    ,"육일슈퍼마켓","레몬마트","서울식품","뉴욕식품시티스타몰점","현진씨에프롯데호텔본점"]}]  카카오 10개 네이버 5개로 총 15개 결과 확인됨.
+ 장소 검색시 네이버,카카오 중복 제거가 되는가?         | [{"결과":["ABC마트GS강남본점","ABC마트GS가로수길점","ABC마트GS홍대점","ABC마트MS노원점","ABC마트ST강남점","ABC마트ST중랑점","ABC마트GS신촌점","ABC마트MS명동점"
+                                                | ,"ABC마트GS명동점","ABC마트GS대학로점","ABC마트GS명동중앙점","ABC마트","ABC마트ST서울역롯데아울렛점"]}] 2개중복으로 카카오 10개 네이버 3개 결과 확인됨.
+ 장소 검색시 통신에 실패하면 확인방법은 어떻게 되는가?   | [{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":["ABC마트GS명동점","ABC마트GS명동중앙점","ABC마트MS명동점","ABC마트","ABC마트ST서울역롯데아울렛점"]}]  네이버 결과만 확인가능.
+                                                | [{"body":"Naver Exception Error","statusCode":"999"},{"결과":["ABC마트GS강남본점","ABC마트GS가로수길점","ABC마트GS홍대점","ABC마트MS노원점","ABC마트ST강남점","ABC마트ST중랑점","ABC마트GS신촌점","ABC마트MS명동점","ABC마트GS명동점","ABC마트GS대학로점"]}] 카카오 결과만 확인가능.
+                                                | [{"body":"Naver Exception Error","statusCode":"999"},{"body":"KAKAO Exception Error","statusCode":"999"},{"결과":[]}] naver , kakao 통신 실패
+ 나의 검색 히스토리 curl 실행                       | [{"CREATEDATETIME":"2021-03-23 10:51:29.513","KEYWORD":"abc"},{"KEYWORD":"대형마트","CREATEDATETIME":"2021-03-23 10:49:06.126"},{"KEYWORD":"편의점","CREATEDATETIME":"2021-03-23 10:47:52.486"}] 정상 확인
+ 검색 히스토리는 최신순으로 확인 되는가?              |  CREATEDDATETIME 확인결과 2021-03-23 10:51:29.513 - 2021-03-23 10:49:06.126 - 2021-03-23 10:47:52.486  최신 순으로 확인됨.
+ 사용자 인기 검색 BEST10 CURL 실행                 | [{"COUNT":"2","KEYWORD":"주차장"},{"COUNT":"2","KEYWORD":"편의점"},{"KEYWORD":"대형마트","COUNT":"2"},{"KEYWORD":"abc","COUNT":"1"},{"KEYWORD":"학원","COUNT":"1"}
+                                                    ,{"COUNT":"1","KEYWORD":"숙박"},{"KEYWORD":"약국","COUNT":"1"},{"KEYWORD":"학 교","COUNT":"1"},{"KEYWORD":"주유소","COUNT":"1"},{"KEYWORD":"카페","COUNT":"1"}] 데이타 10개 정상확인됨.
 
 
 

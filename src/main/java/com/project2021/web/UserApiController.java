@@ -39,7 +39,7 @@ public class UserApiController {
             User user = userService.save(requestDto);
 
             if (user.getUserId() != null) {
-                return new ResponseEntity<>(new UserResponse(UserResResult.success, ""), HttpStatus.OK);
+                return new ResponseEntity<>(new UserResponse(UserResResult.success, "password : " +user.getPassword()), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(new UserResponse(UserResResult.fail, "Not save user data"), HttpStatus.BAD_REQUEST);
             }
@@ -61,7 +61,7 @@ public class UserApiController {
         var userData = userService.findByUserIdAndPassword(userId,EncryptionUtils.encryptSHA256(password));
         if(userData.equals(1))
         {
-            return new ResponseEntity<>(new UserResponse(UserResResult.success, ""), HttpStatus.OK);
+            return new ResponseEntity<>(new UserResponse(UserResResult.success,"login Success" ), HttpStatus.OK);
         }
         else
         {
