@@ -25,7 +25,7 @@ public class Search {
     @NotNull
     @NotEmpty
     @Column(length = 100 ,  nullable = false)
-    private String keyword;
+    private String keyword; // 키워드
 
 
     @NotNull
@@ -36,7 +36,7 @@ public class Search {
 
 
     @CreationTimestamp
-    public LocalDateTime createDateTime;
+    public LocalDateTime createDateTime; //검색 시간
 
 
 
