@@ -23,18 +23,21 @@ import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
+//JUnit 내장된 실행자 외에 다른 실행자 실행
+//스프링 실행자 실행
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserApiControllerTest {
     @LocalServerPort
     private int port;
 
+    //빈 주입
     @Autowired
     private TestRestTemplate restTemplate;
 
     @Autowired
     private UserRepository userRepository;
-
+    //단위 테스트 종료후 수행되는 메소드
     @After
     public void tearDown() throws Exception{
         userRepository.deleteAll();
@@ -60,12 +63,7 @@ public class UserApiControllerTest {
         List<User> list = userRepository.findAll();
 
         User user = list.get(0);
-        System.out.println("=================");
-        System.out.println(user.getUserId());
-        System.out.println(user.getPassword());
-        System.out.println(user.getUserName());
-        System.out.println("=================");
-
+        //검증 메소드
         assertThat(user.getUserId()).isEqualTo(userId);
         assertThat(user.getPassword()).isEqualTo(password);
         assertThat(user.getUserName()).isEqualTo(userName);

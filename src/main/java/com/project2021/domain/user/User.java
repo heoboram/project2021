@@ -20,8 +20,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class User {
 //User Table
-        @Id
-        @GeneratedValue
+        @Id //PK
+        @GeneratedValue //PK생성규칙
         private Long id;
 
         @NotNull

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Table(indexes =  {@Index(name = "i_user_id" , columnList= "userid"),@Index(name = "i_keyword", columnList = "keyword DESC")})
 public class Search {
 
-    @Id
+    @Id //PK
     @GeneratedValue
     private Long id;
 

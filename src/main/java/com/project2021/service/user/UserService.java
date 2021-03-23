@@ -29,7 +29,7 @@ public class UserService {
     }
 
 
-
+    // id 와 pw 가 등록되어있는지 count
     @Transactional(readOnly = true)
     public Integer findByUserIdAndPassword(String userId, String password) {
 
@@ -37,6 +37,7 @@ public class UserService {
         return userRepository.findByUserIdAndPassword(userId, password);
     }
 
+    // id가 등록되어있는지 count
     @Transactional(readOnly = true)
     public Integer findByUserId(String userId) {
 

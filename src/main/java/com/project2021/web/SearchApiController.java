@@ -9,8 +9,7 @@ import com.project2021.web.dto.SearchSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 
 import lombok.var;
-import org.json.JSONObject;
-import org.json.simple.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+
 
 
 @RequiredArgsConstructor
@@ -61,6 +57,7 @@ public class SearchApiController {
     //나의 히스토리 최신순
     @GetMapping("/api/search/history/{userId}")
     public ResponseEntity<Object> searchHistory(@PathVariable("userId") String userId ){
+
        var list = searchService.findByUserIdHistory(userId);
 
         if( list.size() ==0){
@@ -75,6 +72,7 @@ public class SearchApiController {
     public ResponseEntity<Object> searchBest(){
 
         var list = searchService.findByBestSearch() ;
+
         if( list.size() ==0){
             return new ResponseEntity<>(new UserResponse(UserResResult.fail, "Not found user data"), HttpStatus.BAD_REQUEST);
         }else{

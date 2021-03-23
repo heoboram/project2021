@@ -27,6 +27,7 @@ public class SearchService {
 
     private final SearchRepository searchRepository;
 
+    //키워드로 장소찾기 open api 통신 
     @Transactional(readOnly = true)
     public ResponseEntity<Object> findByKeyword(String keyword){
 
@@ -40,11 +41,13 @@ public class SearchService {
         return searchRepository.save(requestDto.toEntity());
     }
 
+    //히스토리 조회
     @Transactional(readOnly = true)
     public List<Map<String,String>> findByUserIdHistory(String userId){
         return searchRepository.findByUserIdHistory(userId);
     }
 
+    //top10 조회
     @Transactional(readOnly = true)
     public List<Map<String,String>> findByBestSearch(){
         return searchRepository.findByBestKeyword();
