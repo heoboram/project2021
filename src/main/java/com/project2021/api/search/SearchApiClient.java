@@ -149,7 +149,7 @@ try {
         result.add(naverResult.get(i));
     }
     JSONObject jsonObj = new JSONObject();
-    jsonObj.put("결과" , result);
+    jsonObj.put("result" , result);
     arry.add(jsonObj);
 
 
